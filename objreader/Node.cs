@@ -55,33 +55,67 @@ namespace Reality.ObjReader
         public virtual void AddIndices(string[] tokens)
         {
             tokens = tokens.Skip(1).ToArray();
-            foreach (var token in tokens)
-            {
-                var indices = Reader.Tokenize(token, '/');
-                switch (indices.Length)
-                {
-                    case 1:
-                        if (indices[0] != "")
-                            this.VertexIndex.Add(ConvertToInt(indices[0]) - 1);
-                        break;
-                    case 2:
-                        if (indices[0] != "")
-                            this.VertexIndex.Add(ConvertToInt(indices[0]) - 1);
-                        if (indices[1] != "")
-                            this.UVIndex.Add(ConvertToInt(indices[1]) - 1);
-                        break;
-                    case 3:
-                        if (indices[0] != "")
-                            this.VertexIndex.Add(ConvertToInt(indices[0]) - 1);
-                        if (indices[1] != "")
-                            this.UVIndex.Add(ConvertToInt(indices[1]) - 1);
-                        if (indices[2] != "")
-                            this.NormalIndex.Add(ConvertToInt(indices[2]) - 1);
-                        break;
-                    default:
-                        throw new Exception("wrong number of indices");
-                }
+            switch (tokens.Length) {
+                case 3:
+                    foreach (var token in tokens) {
+                        var indices = Reader.Tokenize(token, '/');
+                        switch (indices.Length) {
+                            case 1:
+                                if (indices[0] != "")
+                                    this.VertexIndex.Add(ConvertToInt(indices[0]) - 1);
+                                break;
+                            case 2:
+                                if (indices[0] != "")
+                                    this.VertexIndex.Add(ConvertToInt(indices[0]) - 1);
+                                if (indices[1] != "")
+                                    this.UVIndex.Add(ConvertToInt(indices[1]) - 1);
+                                break;
+                            case 3:
+                                if (indices[0] != "")
+                                    this.VertexIndex.Add(ConvertToInt(indices[0]) - 1);
+                                if (indices[1] != "")
+                                    this.UVIndex.Add(ConvertToInt(indices[1]) - 1);
+                                if (indices[2] != "")
+                                    this.NormalIndex.Add(ConvertToInt(indices[2]) - 1);
+                                break;
+                            default:
+                                throw new Exception("wrong number of indices");
+                        }
+                    }
+                    break;
+                case 4:
+                    int[,] winding = { { 0, 1, 2 }, { 0, 2, 3 } };
+                    for (int i = 0; i < 2; ++i)
+                        for (int j = 0; j < 3; ++j) {
+                            var indices = Reader.Tokenize(tokens[winding[i,j]], '/');
+                        switch (indices.Length) {
+                            case 1:
+                                if (indices[0] != "")
+                                    this.VertexIndex.Add(ConvertToInt(indices[0]) - 1);
+                                break;
+                            case 2:
+                                if (indices[0] != "")
+                                    this.VertexIndex.Add(ConvertToInt(indices[0]) - 1);
+                                if (indices[1] != "")
+                                    this.UVIndex.Add(ConvertToInt(indices[1]) - 1);
+                                break;
+                            case 3:
+                                if (indices[0] != "")
+                                    this.VertexIndex.Add(ConvertToInt(indices[0]) - 1);
+                                if (indices[1] != "")
+                                    this.UVIndex.Add(ConvertToInt(indices[1]) - 1);
+                                if (indices[2] != "")
+                                    this.NormalIndex.Add(ConvertToInt(indices[2]) - 1);
+                                break;
+                            default:
+                                throw new Exception("wrong number of indices");
+                        }
+                    }
+                    break;
+                default:
+                    throw new Exception("invalid number of vertices, only triangles or quads are supported");
             }
+
         }
     }
 }
