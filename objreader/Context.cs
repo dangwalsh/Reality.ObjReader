@@ -137,6 +137,10 @@ namespace Reality.ObjReader
                         if (current == null) break;
                         current.AddKs(tokens);
                         break;
+                    case "Ke":
+                        if (current == null) break;
+                        current.AddKe(tokens);
+                        break;
                     case "map_Kd":
                         if (current == null) break;
                         current.AddKdMap(tokens);
@@ -148,6 +152,10 @@ namespace Reality.ObjReader
                     case "map_Ks":
                         if (current == null) break;
                         current.AddKsMap(tokens);
+                        break;
+                    case "map_Ke":
+                        if (current == null) break;
+                        current.AddKeMap(tokens);
                         break;
                     case "map_bump":
                         if (current == null) break;

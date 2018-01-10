@@ -7,6 +7,7 @@ namespace Reality.ObjReader
         public Vec3 Scale { get; private set; }
         public Vec3 Origin { get; private set; }
         public Vec3 Turbulence { get; private set; }
+        public float Rotation { get; private set; }
         public string Path { get; private set; }
 
         public Texture()
@@ -46,6 +47,11 @@ namespace Reality.ObjReader
                     tokens = tokens.Skip(1).ToArray();
                     this.Turbulence = Utils.ConvertToVec3(tokens);
                     tokens = tokens.Skip(3).ToArray();
+                    break;
+                case "-r":
+                    tokens = tokens.Skip(1).ToArray();
+                    this.Rotation = Utils.ConvertToFloat(tokens[0]);
+                    tokens = tokens.Skip(1).ToArray();
                     break;
                 default:
                     this.Path = Utils.ConvertToString(tokens);

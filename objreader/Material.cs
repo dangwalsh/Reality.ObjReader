@@ -32,6 +32,11 @@ namespace Reality.ObjReader
         public Vec4 Ks { get; private set; }
 
         /// <summary>
+        /// Emission color value
+        /// </summary>
+        public Vec4 Ke { get; private set; }
+
+        /// <summary>
         /// Specular exponent (focus of the hilight).
         /// </summary>
         public float Ns { get; private set; }
@@ -52,6 +57,11 @@ namespace Reality.ObjReader
         public Texture MapKs { get; private set; }
 
         /// <summary>
+        /// Emission texture map.
+        /// </summary>
+        public Texture MapKe { get; private set; }
+
+        /// <summary>
         /// Bump texture map.
         /// </summary>
         public Texture MapBump { get; private set; }
@@ -63,10 +73,12 @@ namespace Reality.ObjReader
             this.Kd = new Vec4();
             this.Ka = new Vec4();
             this.Ks = new Vec4();
+            this.Ke = new Vec4();
             this.Ns = 0.0f;
             this.MapKd = new Texture();
             this.MapKa = new Texture();
             this.MapKs = new Texture();
+            this.MapKe = new Texture();
             this.MapBump = new Texture();
         }
 
@@ -86,6 +98,11 @@ namespace Reality.ObjReader
         {
             tokens = tokens.Skip(1).ToArray();
             this.Ks = ConvertToVec3(tokens) + 1.0f;
+        }
+
+        public void AddKe(string[] tokens) {
+            tokens = tokens.Skip(1).ToArray();
+            this.Ke = ConvertToVec3(tokens) + 1.0f;
         }
 
         public void AddNs(string[] tokens)
@@ -114,6 +131,11 @@ namespace Reality.ObjReader
         {
             tokens = tokens.Skip(1).ToArray();
             this.MapKs = new Texture(tokens);
+        }
+
+        public void AddKeMap(string[] tokens) {
+            tokens = tokens.Skip(1).ToArray();
+            this.MapKe = new Texture(tokens);
         }
 
         public void AddBumpMap(string[] tokens)

@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.IO.Compression;
 using Windows.Storage;
 using System.IO;
+using System.Collections.Generic;
 
 namespace Reality.ObjReader
 {
@@ -13,19 +14,18 @@ namespace Reality.ObjReader
         /// </summary>
         /// <param name="filepath">The path to the zip</param>
         /// <returns>the path to the unzipped .obj</returns>
-        public async static Task<string> UnzipFileAsync(string filepath)
+        public async static Task<List<string>> UnzipFileAsync(string filepath)
         {
             var file = await StorageFile.GetFileFromPathAsync(filepath);
             var folderpath = Path.GetDirectoryName(filepath);
             var folder = await StorageFolder.GetFolderFromPathAsync(folderpath);
             ZipFile.ExtractToDirectory(file.Path, folder.Path);
             var files = await folder.GetFilesAsync();
-            string model = null;
+            var model = new List<string>();
             foreach (var item in files)
             {
                 if (Path.GetExtension(item.Path) != ".obj") continue;
-                model = item.Path;
-                break;
+                model.Add(item.Path);
             }
             if (model == null)
                 throw new FileNotFoundException();
